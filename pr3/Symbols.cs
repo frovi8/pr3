@@ -10,6 +10,8 @@ namespace pr3
         private static readonly char[] _words = { ',', ' ', '(', ')', ':', ';', '?', '!', '.'};
         private static readonly string _vowels = "аеёиоуыэюя";
 
+        private static readonly string _letters = "абвгдеёзжийклмнопрстуфхцчшщъыьэюя";
+
 
         public static string[] Sentence(string text)
         {
@@ -22,6 +24,10 @@ namespace pr3
         public static bool Vowels(char text)
         {
             return _vowels.Contains(char.ToLower(text));
+        }
+        public static bool Letters(char text)
+        {
+            return _letters.Contains(char.ToLower(text));
         }
 
 
