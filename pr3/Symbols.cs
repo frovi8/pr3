@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace pr3
 {
@@ -25,11 +26,16 @@ namespace pr3
         {
             return _vowels.Contains(char.ToLower(text));
         }
-        public static bool Letters(char text)
+        public static string Letters(string[] text)
         {
-            return _letters.Contains(char.ToLower(text));
-        }
+            StringBuilder sb = new StringBuilder();
 
+            foreach (string word in text)
+            {
+                sb.Append(word);
+            }
+            return sb.ToString();
+        }
 
     }
 }

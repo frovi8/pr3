@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics.Metrics;
+using System.Text;
 
 namespace pr3
 {
@@ -34,7 +35,7 @@ namespace pr3
             }
 
             
-            //По реке плывет кораблик. Он плывет издалека. На кораблике четыре Очень храбрых моряка. У них ушки на макушке, У них длинные хвосты, И страшны им только кошки, Только кошки да коты
+            // 
 
         }
         
@@ -62,10 +63,10 @@ namespace pr3
                     switch (input)
                     {
                         case "1":
-                            string ChekText = Text();
-                            if (ChekText != null) 
+                            string checkText = Text();
+                            if (checkText != null) 
                             { 
-                                Print(ChekText); 
+                                Print(checkText); 
                                 Console.WriteLine();
                                 Console.WriteLine("Нажмите любую клавишу для выхода");
                                 Console.ReadKey();
@@ -96,8 +97,9 @@ namespace pr3
             Console.WriteLine($"Количество гласных: {v}, количество согласных: {c}");
             Console.WriteLine($"Самое длинное слово: {MaxWord(text)}");
 
+
             
-            //Console.WriteLine($"Частота встречаемости букв: {Staristic}");
+            Console.WriteLine($"Частота встречаемости букв:\n{Staristic(text)}");
 
 
         }
@@ -165,16 +167,43 @@ namespace pr3
             return (countVowels, countConsonants);
         }
 
-        static void Staristic(string text)
+        static string Staristic(string text)
         {
-            var dictionary = new Dictionary<char, int>();            
+            var dictionary = new Dictionary<char, int>();
 
-            var splitText = Symbols.Wrods(text.ToLower().Trim());
+            var words = Symbols.Wrods(text.ToLower());
 
-            for (int i = 0; i < splitText.Length; i++)
+            var letters = Symbols.Letters(words);
+
+            foreach (char c in letters)
             {
-                
+                if (dictionary.ContainsKey(c))
+                {
+                    dictionary[c] += 1;
+                }
+                else
+                {
+                    dictionary.Add(c, 1);
+                } 
             }
+
+            StringBuilder sb = new StringBuilder();
+
+            int count = 0;
+
+            foreach (var letter in dictionary)
+            {
+                count++;
+
+                if (count < 4)
+                    sb.Append($"[{letter.Key}]: {letter.Value}  \t");
+                else
+                {
+                    sb.Append($"[{letter.Key}]: {letter.Value}  \n");
+                    count = 0;
+                }
+            }
+            return sb.ToString();
         }
     }
 }
