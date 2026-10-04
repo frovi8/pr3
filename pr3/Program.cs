@@ -100,7 +100,7 @@ namespace pr3
 
             
             Console.WriteLine($"Частота встречаемости букв:\n{Staristic(text)}");
-
+        }
 
         }
         static int WordCount(string text)
