@@ -8,11 +8,8 @@ namespace pr3
     internal class Symbols
     {
         private static readonly char[] _sentence = {'?', '!', '.'};
-        private static readonly char[] _words = { ',', ' ', '(', ')', ':', ';', '?', '!', '.'};
+        private static readonly char[] _words = { ',', ' ', '(', ')', ':', ';', '?', '!', '.', '-', '"'};
         private static readonly string _vowels = "аеёиоуыэюя";
-
-        private static readonly string _letters = "абвгдеёзжийклмнопрстуфхцчшщъыьэюя";
-
 
         public static string[] Sentence(string text)
         {

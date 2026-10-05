@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Diagnostics.Metrics;
 using System.Text;
 
 namespace pr3
 {
-    
     internal class Program
     {
-        //static string? text = "";
-
-        static string Text()
+        static string? Text()
         {
             while (true)
             {
@@ -21,35 +17,33 @@ namespace pr3
                 {
                     return null;
                 }
-                
-                
+
                 if (text?.Length > 100)
                 {
                     return text;
                 }
                 else
                 {
-                    Console.WriteLine("Количество символов < 100");
+                    Console.WriteLine("Количество символов должно быть > 100");
                 }
-                
             }
-
-            
-            // 
-
+            // По реке плывет кораблик. Он плывет издалека. На кораблике четыре Очень храбрых моряка. У них ушки на макушке, У них длинные хвосты, И страшны им только кошки, Только кошки да коты
         }
-        
+
         static void Main(string[] args)
         {
             Start();
         }
+
+        static List<string> list = new List<string>();
+
         static void Start()
         {
             bool running = true;
 
             while (running)
             {
-                
+
                 Console.WriteLine("Выберите опцию: ");
                 Console.WriteLine("Вввести текст - 1");
                 Console.WriteLine("Просмотр истории статистики - 2");
@@ -60,49 +54,58 @@ namespace pr3
                 string? input = Console.ReadLine();
                 Console.Clear();
 
-                    switch (input)
-                    {
-                        case "1":
-                            string checkText = Text();
-                            if (checkText != null) 
-                            { 
-                                Print(checkText); 
-                                Console.WriteLine();
-                                Console.WriteLine("Нажмите любую клавишу для выхода");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                            else
-                            {
-                                Console.Clear();
-                            }
-                            break;
-                        case "2":
-                            break;
-                        case "0":
-                            running = false;
-                            break;
-                        default:
-                            Console.WriteLine("sisi");
-                            break;
-                    }
+                switch (input)
+                {
+                    case "1":
+                        string checkText = Text();
+                        if (checkText != null)
+                        {
+                            string his = Build(checkText);
+                            list.Add(his);
+                            Console.WriteLine(his);
+                            Console.WriteLine("Нажмите любую клавишу для выхода");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                        }
+                        break;
+                    case "2":
+                        if (list.Count != 0)
+                            foreach (string his in list) { Console.WriteLine(his); }
+                        else
+                            Console.WriteLine("Сначала введите текст!");
+                        Console.WriteLine("Нажмите любую клавишу для выхода");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "0":
+                        running = false;
+                        break;
+                    default:
+                        Console.WriteLine("Некорректный ввод (только 1, 2 или 0)");
+                        break;
+                }
             }
         }
-        static void Print(string text)
+        static string Build(string text)
         {
+            StringBuilder sb = new StringBuilder();
+            string t = text.Substring(0, 15);
+            sb.AppendLine($"{t}...");
             var (v, c) = VowelsAndConsonants(text);
-            Console.WriteLine($"Количество слов: {WordCount(text)}");
-            Console.WriteLine($"Самое короткое слово: {MinWord(text)}");
-            Console.WriteLine($"Количество предложений: {Sentence(text)}");
-            Console.WriteLine($"Количество гласных: {v}, количество согласных: {c}");
-            Console.WriteLine($"Самое длинное слово: {MaxWord(text)}");
+            sb.AppendLine($"Количество слов: {WordCount(text)}");
+            sb.AppendLine($"Самое короткое слово: {MinWord(text)}");
+            sb.AppendLine($"Количество предложений: {Sentence(text)}");
+            sb.AppendLine($"Количество гласных: {v}, количество согласных: {c}");
+            sb.AppendLine($"Самое длинное слово: {MaxWord(text)}");
+            sb.AppendLine($"Частота встречаемости букв:\n{Staristic(text)}");
 
-
-            
-            Console.WriteLine($"Частота встречаемости букв:\n{Staristic(text)}");
+            return sb.ToString();
         }
 
-        }
         static int WordCount(string text)
         {
             string[] splitText = Symbols.Wrods(text);
@@ -116,7 +119,7 @@ namespace pr3
 
             string min = splitText[0];
 
-            for (int i = 1; i < splitText.Length; i++) 
+            for (int i = 1; i < splitText.Length; i++)
             {
                 if (splitText[i].Length < min.Length)
                 {
@@ -156,10 +159,10 @@ namespace pr3
             for (int i = 0; i < text.Length; i++)
             {
                 if (Symbols.Vowels(text[i]) == true)
-                {                    
+                {
                     countVowels++;
                 }
-                else if (Symbols.Vowels(text[i]) == false && char.IsLetter(text[i]) && text[i] != 'ь' && text[i] != 'ъ') 
+                else if (char.IsLetter(text[i]) && text[i] != 'ь' && text[i] != 'ъ')
                 {
                     countConsonants++;
                 }
@@ -177,14 +180,17 @@ namespace pr3
 
             foreach (char c in letters)
             {
-                if (dictionary.ContainsKey(c))
+                if (char.IsLetter(c))
                 {
-                    dictionary[c] += 1;
+                    if (dictionary.ContainsKey(c))
+                    {
+                        dictionary[c] += 1;
+                    }
+                    else
+                    {
+                        dictionary.Add(c, 1);
+                    }
                 }
-                else
-                {
-                    dictionary.Add(c, 1);
-                } 
             }
 
             StringBuilder sb = new StringBuilder();
